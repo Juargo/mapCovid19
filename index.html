@@ -22,7 +22,10 @@
 <body>
     <div id="mapid"></div>
     <script>
-        var mymap = L.map('mapid').setView([-33.414830, -70.662830], 13);
+        var mymap = L.map('mapid', {
+    center: [-33.414830, -70.662830],
+    zoom: 8
+});
 
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
@@ -179,16 +182,16 @@
         }).addTo(mymap);
         circle.bindPopup("Total: 39");
 
-        var latlngs = [
-            [[45.51, -122.68],
-            [37.77, -122.43],
-            [34.04, -118.2]],
-            [[40.78, -73.91],
-            [41.83, -87.62],
-            [32.76, -96.72]]
-        ];
+        // var latlngs = [
+        //     [[45.51, -122.68],
+        //     [37.77, -122.43],
+        //     [34.04, -118.2]],
+        //     [[40.78, -73.91],
+        //     [41.83, -87.62],
+        //     [32.76, -96.72]]
+        // ];
 
-        var polyline = L.polyline(latlngs, { color: 'red' }).addTo(mymap);
+        // var polyline = L.polyline(latlngs, { color: 'red' }).addTo(mymap);
 // zoom the map to the polyline
 // mymap.fitBounds(polyline.getBounds())
     </script>
