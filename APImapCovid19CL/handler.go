@@ -80,7 +80,7 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 							if err == nil {
 								fallecidos = i2
 							}
-							emp := &dataregion{name: region, casosnuevos: casosnuevos, casostotales: casostotales, fallecidos: fallecidos}
+							emp := &dataregion{Name: region, Casosnuevos: casosnuevos, Casostotales: casostotales, Fallecidos: fallecidos}
 							e, err := json.Marshal(emp)
 							if err != nil {
 								fmt.Println(err)
