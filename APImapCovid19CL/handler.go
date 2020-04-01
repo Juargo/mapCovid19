@@ -47,6 +47,7 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 
 	document.Find(".contenido").ChildrenFiltered("table").First().Each(func(index int, element *goquery.Selection) {
 		element.Children().Each(func(indexd int, elementd *goquery.Selection) {
+			var region string
 			var casostotales int64
 			var casosnuevos int64
 			var fallecidos int64
