@@ -95,8 +95,9 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
 	// 	return
 	// }
-	fmt.Printf("%+v\n", data)
+	fmt.Printf("%+v\n\n", data)
 	als := data
+	fmt.Printf("%+v\n", als)
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(als)
