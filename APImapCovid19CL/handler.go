@@ -28,9 +28,9 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 	//	{name:Atacama,casostotales:10,casosnuevos:0,fallecidos:0}
 	//]
 
-	var data map[string]map[string][]dataregion
-	data = make(map[string]map[string][]dataregion)
-	data["Data"] = make(map[string][]dataregion)
+	var data map[string]map[string][]string
+	data = make(map[string]map[string][]string)
+	data["Data"] = make(map[string][]string)
 
 	var region string
 	var casostotales int64
@@ -80,7 +80,13 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 							if err == nil {
 								fallecidos = i2
 							}
-							data["Data"]["Regiones"] = append(data["Data"]["Regiones"], dataregion{name: region, casosnuevos: casosnuevos, casostotales: casostotales, fallecidos: fallecidos})
+							emp := &dataregion{name: region, casosnuevos: casosnuevos, casostotales: casostotales, fallecidos: fallecidos}
+							e, err := json.Marshal(emp)
+							if err != nil {
+								fmt.Println(err)
+								return
+							}
+							data["Data"]["Regiones"] = append(data["Data"]["Regiones"], string(e))
 							fmt.Printf("%+v\n", data)
 						}
 					})
@@ -90,11 +96,6 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 		})
 	})
 
-	// js, err := json.Marshal(data)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
 	fmt.Printf("%+v\n\n", data)
 	als := data
 	fmt.Printf("%+v\n", als)
