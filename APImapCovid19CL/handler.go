@@ -80,10 +80,10 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 							if err == nil {
 								fallecidos = i2
 							}
-							data["Data"]["Regiones"] = append(data["Data"]["Regiones"], dataregion{Name: region, Casosnuevos: casosnuevos, Casostotales: casostotales, Fallecidos: fallecidos})
-							fmt.Printf("%+v\n", data)
 						}
 					})
+					data["Data"]["Regiones"] = append(data["Data"]["Regiones"], dataregion{Name: region, Casosnuevos: casosnuevos, Casostotales: casostotales, Fallecidos: fallecidos})
+					fmt.Printf("%+v\n", data)
 				}
 			})
 
