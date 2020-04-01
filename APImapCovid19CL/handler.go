@@ -30,6 +30,7 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 
 	var data map[string]map[string][]dataregion
 	data = make(map[string]map[string][]dataregion)
+	data["Data"] = make(map[string][]dataregion)
 
 	var region string
 	var casostotales int64
@@ -79,7 +80,6 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 							if err == nil {
 								fallecidos = i2
 							}
-							data["Data"] = make(map[string][]dataregion)
 							data["Data"]["Regiones"] = append(data["Data"]["Regiones"], dataregion{name: region, casosnuevos: casosnuevos, casostotales: casostotales, fallecidos: fallecidos})
 							fmt.Printf("%+v\n", data)
 						}
