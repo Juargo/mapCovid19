@@ -11,10 +11,10 @@ import (
 )
 
 type dataregion struct {
-	name         string
-	casostotales int64
-	casosnuevos  int64
-	fallecidos   int64
+	Name         string
+	Casostotales int64
+	Casosnuevos  int64
+	Fallecidos   int64
 }
 
 func (app *application) Routes() {
