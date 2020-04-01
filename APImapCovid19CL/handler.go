@@ -90,7 +90,12 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 		})
 	})
 
-	als := data
+	js, err := json.Marshal(data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	als := js
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(als)
