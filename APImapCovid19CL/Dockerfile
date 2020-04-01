@@ -1,4 +1,4 @@
-FROM golang:latest as builder
+FROM golang:alpine as builder
 
 COPY . $GOPATH/src/github.com/Juargo/mapCovid19CL/
 WORKDIR   $GOPATH/src/github.com/Juargo/mapCovid19CL/
