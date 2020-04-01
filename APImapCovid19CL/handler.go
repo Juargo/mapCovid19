@@ -32,11 +32,6 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 	data = make(map[string]map[string][]dataregion)
 	data["Data"] = make(map[string][]dataregion)
 
-	var region string
-	var casostotales int64
-	var casosnuevos int64
-	var fallecidos int64
-
 	// Make HTTP request
 	response, err := http.Get("https://www.minsal.cl/nuevo-coronavirus-2019-ncov/casos-confirmados-en-chile-covid-19/")
 	if err != nil {
@@ -52,6 +47,9 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 
 	document.Find(".contenido").ChildrenFiltered("table").First().Each(func(index int, element *goquery.Selection) {
 		element.Children().Each(func(indexd int, elementd *goquery.Selection) {
+			var casostotales int64
+			var casosnuevos int64
+			var fallecidos int64
 			elementd.Children().Each(func(indext int, elementt *goquery.Selection) {
 				if indext > 2 {
 					elementt.Children().Each(func(indexf int, elementf *goquery.Selection) {
