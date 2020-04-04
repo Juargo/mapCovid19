@@ -14,6 +14,7 @@ FROM scratch
 
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /go/bin/APImapCovid19CL /go/bin/APImapCovid19CL
+ADD  ca-certificates.crt /etc/ssl/certs/
 
 USER APImapCovid19CL
 
