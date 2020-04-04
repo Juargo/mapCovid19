@@ -22,10 +22,29 @@
 <body>
     <div id="mapid"></div>
     <script>
+        
+      
+        coordenadas=[]
+        coordenadas["Arica y Parinacota"]={ latitude:-18.728789,longitude:-69.897747};
+        coordenadas["Tarapacá"]={ latitude:-20.215031,longitude: -69.543372};
+        coordenadas["Antofagasta"]={ latitude:-23.648366,longitude: -70.394209};
+        coordenadas["Atacama"]={ latitude:-27.603692,longitude: -70.315332};
+        coordenadas["Coquimbo"]={ latitude:-29.967776,longitude:-71.329594};
+        coordenadas["Valparaíso"]={ latitude:-33.048674,longitude:-71.625816};
+        coordenadas["Metropolitana"]={ latitude:-33.414830,longitude: -70.662830};
+        coordenadas["O’Higgins"]={ latitude:-34.461338,longitude: -71.298434};
+        coordenadas["Maule"]={ latitude:-35.596401,longitude:-71.483462};
+        coordenadas["Ñuble"]={ latitude:-36.598112,longitude: -72.013757};
+        coordenadas["Biobío"]={ latitude:-36.849994,longitude: -73.023011};
+        coordenadas["Araucanía"]={ latitude:-38.659524,longitude: -72.541132};
+        coordenadas["Los Ríos"]={ latitude:-39.827413,longitude: -73.187970};
+        coordenadas["Aysén"]={ latitude:-45.394099,longitude:  -72.746076};
+        coordenadas["Magallanes"]={ latitude:-52.857106,longitude:   -71.091946};
+
         var mymap = L.map('mapid', {
-    center: [-33.414830, -70.662830],
-    zoom: 8
-});
+            center: [-33.414830, -70.662830],
+            zoom: 8
+        });
 
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
@@ -33,154 +52,182 @@
         }).addTo(mymap);
         L.control.scale().addTo(mymap);
 
+var radius=0 
+        fetch('http://167.99.156.156:8080/getDataMinsal')
+            .then(res => res.json())
+            .then((out) => {
+                console.log('Output: ', out);
+                console.log(coordenadas);
+                out.Data.Regiones.forEach(element => {
+                   console.log(element) 
+                   if(element.Casostotales>1200){
+                       radius=1295
+                   }else{
+                       radius=element.Casostotales
+                   }
+                   var circle = L.circle([coordenadas[element.Name].latitude, coordenadas[element.Name].longitude], {
+                        color: 'red',
+                        fillColor: '#f03',
+                        fillOpacity: 0.5,
+                        radius: 30 * radius
+                    }).addTo(mymap);
+                    circle.bindPopup("Total: "+element.Casostotales);
+                });
+            }).catch(err => console.error(err));
+        
+
+
         // L.marker([-33.414830, -70.662830], { draggable: true }).addTo(mymap);
+        
+      
+        
         //SANTIAGO
-        var circle = L.circle([-33.414830, -70.662830], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 1295
-        }).addTo(mymap);
-        circle.bindPopup("Total: 1295");
+        // var circle = L.circle([-33.414830, -70.662830], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 1295
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 1295");
 
 
-        //ARICA
-        var circle = L.circle([-18.728789, -69.897747], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 6
-        }).addTo(mymap);
-        circle.bindPopup("Total: 6");
+        // //ARICA
+        // var circle = L.circle([-18.728789, -69.897747], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 6
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 6");
 
-        //TARAPACÁ
-        var circle = L.circle([-20.215031, -69.543372], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 8
-        }).addTo(mymap);
-        circle.bindPopup("Total: 8");
+        // //TARAPACÁ
+        // var circle = L.circle([-20.215031, -69.543372], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 8
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 8");
 
-        //ANTOFAGASTA
-        var circle = L.circle([-23.648366, -70.394209], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 35
-        }).addTo(mymap);
-        circle.bindPopup("Total: 35");
-
-
-        //ATACAMA
-        var circle = L.circle([-27.603692, -70.315332], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 2
-        }).addTo(mymap);
-        circle.bindPopup("Total: 2");
+        // //ANTOFAGASTA
+        // var circle = L.circle([-23.648366, -70.394209], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 35
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 35");
 
 
-        //COQUIMBO
-        var circle = L.circle([-29.967776, -71.329594], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 27
-        }).addTo(mymap);
-        circle.bindPopup("Total: 27");
+        // //ATACAMA
+        // var circle = L.circle([-27.603692, -70.315332], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 2
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 2");
 
 
-        //VALPARAISO
-        var circle = L.circle([-33.048674, -71.625816], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 108
-        }).addTo(mymap);
-        circle.bindPopup("Total: 108");
+        // //COQUIMBO
+        // var circle = L.circle([-29.967776, -71.329594], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 27
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 27");
 
-        //O’Higgins
-        var circle = L.circle([-34.461338, -71.298434], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 21
-        }).addTo(mymap);
-        circle.bindPopup("Total: 21");
 
-        //MAULE
-        var circle = L.circle([-35.596401, -71.483462], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 54
-        }).addTo(mymap);
-        circle.bindPopup("Total: 54");
+        // //VALPARAISO
+        // var circle = L.circle([-33.048674, -71.625816], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 108
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 108");
 
-        //ÑUBLE
-        var circle = L.circle([-36.598112, -72.013757], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 229
-        }).addTo(mymap);
-        circle.bindPopup("Total: 229");
+        // //O’Higgins
+        // var circle = L.circle([-34.461338, -71.298434], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 21
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 21");
 
-        //BIOBIO
-        var circle = L.circle([-36.849994, -73.023011], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 201
-        }).addTo(mymap);
-        circle.bindPopup("Total: 201");
+        // //MAULE
+        // var circle = L.circle([-35.596401, -71.483462], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 54
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 54");
 
-        //ARAUCANIA
-        var circle = L.circle([-38.659524, -72.541132], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 247
-        }).addTo(mymap);
-        circle.bindPopup("Total: 247");
+        // //ÑUBLE
+        // var circle = L.circle([-36.598112, -72.013757], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 229
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 229");
 
-        //LOS RIOS
-        var circle = L.circle([-39.827413, -73.187970], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 47
-        }).addTo(mymap);
-        circle.bindPopup("Total: 47");
+        // //BIOBIO
+        // var circle = L.circle([-36.849994, -73.023011], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 201
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 201");
 
-        //LOS LAGOS
-        var circle = L.circle([-41.319633, -72.933175], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 128
-        }).addTo(mymap);
-        circle.bindPopup("Total: 128");
+        // //ARAUCANIA
+        // var circle = L.circle([-38.659524, -72.541132], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 247
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 247");
 
-        //AYSEN
-        var circle = L.circle([-45.394099, -72.746076], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 2
-        }).addTo(mymap);
-        circle.bindPopup("Total: 2");
+        // //LOS RIOS
+        // var circle = L.circle([-39.827413, -73.187970], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 47
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 47");
 
-        //MAGALLANES
-        var circle = L.circle([-52.857106, -71.091946], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 30 * 2
-        }).addTo(mymap);
-        circle.bindPopup("Total: 39");
+        // //LOS LAGOS
+        // var circle = L.circle([-41.319633, -72.933175], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 128
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 128");
+
+        // //AYSEN
+        // var circle = L.circle([-45.394099, -72.746076], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 2
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 2");
+
+        // //MAGALLANES
+        // var circle = L.circle([-52.857106, -71.091946], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 30 * 2
+        // }).addTo(mymap);
+        // circle.bindPopup("Total: 39");
 
         // var latlngs = [
         //     [[45.51, -122.68],
