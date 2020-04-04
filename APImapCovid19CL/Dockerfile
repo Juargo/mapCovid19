@@ -8,7 +8,6 @@ RUN go get -d -v
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/APImapCovid19CL
 RUN apk --no-cache add ca-certificates 
-ADD ca-certificates.crt /etc/ssl/certs/
 
 FROM scratch
 
