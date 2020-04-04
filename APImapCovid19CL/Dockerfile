@@ -7,13 +7,8 @@ RUN apk add git
 RUN go get -d -v
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/APImapCovid19CL
-RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/* \
-  mkdir /usr/local/share/ca-certificates/extra
-COPY .docker/other/cert_Intertrials-CA.crt /usr/local/share/ca-certificates/extra
-RUN update-ca-certificates
-# RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
-# COPY ./mycert.crt /usr/local/share/ca-certificates/mycert.crt
-# RUN update-ca-certificates
+RUN apk --no-cache add ca-certificates 
+CMD ["ls"]
 
 FROM scratch
 
