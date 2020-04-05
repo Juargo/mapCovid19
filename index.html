@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Create and style clusters</title>
+    <title>mapCovid19CL</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -13,35 +13,48 @@
         crossorigin=""></script>
 
     <style>
-        #mapid {
+        #contagiados {
             height: 100vh;
+            width: 47vw;
+            margin-right: 15px;
+            float: left;
+        }
+        #cuarentenas {
+            height: 100vh;
+            width: 47vw;
         }
     </style>
 </head>
 
 <body>
-    <div id="mapid"></div>
+    <div class="contenedor-mapas">
+        <p>contagiados</p> 
+        <div id="contagiados"></div>
+        <p>comunas en cuarentena</p> 
+        <div id="cuarentenas"></div>
+    </div>
     <script>
-        
-      
-        coordenadas=[]
-        coordenadas["Arica y Parinacota"]={ latitude:-18.728789,longitude:-69.897747};
-        coordenadas["Tarapacá"]={ latitude:-20.215031,longitude: -69.543372};
-        coordenadas["Antofagasta"]={ latitude:-23.648366,longitude: -70.394209};
-        coordenadas["Atacama"]={ latitude:-27.603692,longitude: -70.315332};
-        coordenadas["Coquimbo"]={ latitude:-29.967776,longitude:-71.329594};
-        coordenadas["Valparaíso"]={ latitude:-33.048674,longitude:-71.625816};
-        coordenadas["Metropolitana"]={ latitude:-33.414830,longitude: -70.662830};
-        coordenadas["O’Higgins"]={ latitude:-34.461338,longitude: -71.298434};
-        coordenadas["Maule"]={ latitude:-35.596401,longitude:-71.483462};
-        coordenadas["Ñuble"]={ latitude:-36.598112,longitude: -72.013757};
-        coordenadas["Biobío"]={ latitude:-36.849994,longitude: -73.023011};
-        coordenadas["Araucanía"]={ latitude:-38.659524,longitude: -72.541132};
-        coordenadas["Los Ríos"]={ latitude:-39.827413,longitude: -73.187970};
-        coordenadas["Aysén"]={ latitude:-45.394099,longitude:  -72.746076};
-        coordenadas["Magallanes"]={ latitude:-52.857106,longitude:   -71.091946};
 
-        var mymap = L.map('mapid', {
+
+        coordenadas = []
+        coordenadas["Arica y Parinacota"] = { latitude: -18.728789, longitude: -69.897747 };
+        coordenadas["Tarapacá"] = { latitude: -20.215031, longitude: -69.543372 };
+        coordenadas["Antofagasta"] = { latitude: -23.648366, longitude: -70.394209 };
+        coordenadas["Atacama"] = { latitude: -27.603692, longitude: -70.315332 };
+        coordenadas["Coquimbo"] = { latitude: -29.967776, longitude: -71.329594 };
+        coordenadas["Valparaíso"] = { latitude: -33.048674, longitude: -71.625816 };
+        coordenadas["Metropolitana"] = { latitude: -33.414830, longitude: -70.662830 };
+        coordenadas["O’Higgins"] = { latitude: -34.461338, longitude: -71.298434 };
+        coordenadas["Maule"] = { latitude: -35.596401, longitude: -71.483462 };
+        coordenadas["Ñuble"] = { latitude: -36.598112, longitude: -72.013757 };
+        coordenadas["Biobío"] = { latitude: -36.849994, longitude: -73.023011 };
+        coordenadas["Araucanía"] = { latitude: -38.659524, longitude: -72.541132 };
+        coordenadas["Los Ríos"] = { latitude: -39.827413, longitude: -73.187970 };
+        coordenadas["Los Lagos"] = { latitude: -41.470441, longitude: -72.947332 };
+        coordenadas["Aysén"] = { latitude: -45.394099, longitude: -72.746076 };
+        coordenadas["Magallanes"] = { latitude: -52.857106, longitude: -71.091946 };
+
+        var contagiados = L.map('contagiados', {
             center: [-33.414830, -70.662830],
             zoom: 8
         });
@@ -49,198 +62,90 @@
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
             maxZoom: 18
-        }).addTo(mymap);
-        L.control.scale().addTo(mymap);
+        }).addTo(contagiados);
+        L.control.scale().addTo(contagiados);
 
-var radius=0 
+        var radius = 0
         fetch('http://167.99.156.156:8080/getDataMinsal')
             .then(res => res.json())
             .then((out) => {
                 console.log('Output: ', out);
                 console.log(coordenadas);
                 out.Data.Regiones.forEach(element => {
-                   console.log(element) 
-                   if(element.Casostotales>1200){
-                       radius=1295
-                   }else{
-                       radius=element.Casostotales
-                   }
-                   var circle = L.circle([coordenadas[element.Name].latitude, coordenadas[element.Name].longitude], {
-                        color: 'red',
-                        fillColor: '#f03',
-                        fillOpacity: 0.5,
-                        radius: 30 * radius
-                    }).addTo(mymap);
-                    circle.bindPopup("Total: "+element.Casostotales);
+                    console.log(element)
+                    console.log(coordenadas[element.Name]);
+                    if (element.Name != "Total") {
+                        if (element.Casostotales > 1200) {
+                            radius = 1295
+                        } else {
+                            radius = element.Casostotales
+                        }
+                        var circle = L.circle([coordenadas[element.Name].latitude, coordenadas[element.Name].longitude], {
+                            color: 'red',
+                            fillColor: '#f03',
+                            fillOpacity: 0.5,
+                            radius: 30 * radius
+                        }).addTo(contagiados);
+                        // circle.bindPopup("<strong>" + element.Name + "</strong> <p>" + "Total Casos: " + element.Casostotales + "</p>");
+                        circle.bindTooltip("<strong>" + element.Name + "</strong> <p>" + "Total Casos: " + element.Casostotales + "</p>")
+                    }
                 });
             }).catch(err => console.error(err));
+
+
+
+ //CUARENTENAS
+
+        var cuarentenas = L.map('cuarentenas', {
+            center: [-33.414830, -70.662830],
+            zoom: 8
+        });
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+            maxZoom: 18
+        }).addTo(cuarentenas);
+        L.control.scale().addTo(cuarentenas);
         
+        //Santiago
+        // latlngs = [[-33.435877, -70.635432], 
+        // [-33.430259, -70.659132], 
+        // [-33.437749, -70.679888], 
+        // [-33.454834, -70.673016], 
+        // [-33.467001, -70.646931], 
+        // [-33.464638, -70.627246]];
+
+        latlngs = [[-33.436159, -70.635371],[-33.454018, -70.630359],[-33.461573, -70.628207],[-33.468557, -70.626330],
+        [-33.469681, -70.625331],[-33.470946, -70.625998],[-33.472870, -70.630489],[-33.475705, -70.638743],[-33.476718, -70.652399],
+        [-33.476161, -70.669575],[-33.475918, -70.684560],[-33.479289, -70.698562],[-33.480640, -70.710070],[-33.479137, -70.715134],
+        [-33.475701, -70.719168],[-33.472947, -70.722279],[-33.471743, -70.726032],[-33.470298, -70.730940],[-33.466639, -70.731100],
+        [-33.459316, -70.730998],[-33.454887, -70.731304],[-33.456428, -70.724187],[-33.458131, -70.713980],[-33.458557, -70.711429],
+        [-33.457365, -70.705815],[-33.452852, -70.706223],[-33.448849, -70.707040],[-33.447997, -70.701120],[-33.447742, -70.692546],
+        [-33.439185, -70.691850],[-33.438827, -70.685756],[-33.438397, -70.680606],[-33.429658, -70.680863],[-33.427223, -70.678460],
+        [-33.427879, -70.672512],[-33.425853, -70.671116],[-33.428225, -70.663683],[-33.432655, -70.648883],[-33.435636, -70.636022]]
+        var polygon = L.polygon(latlngs, { color: '#ae9f22' }).addTo(cuarentenas);
 
 
-        // L.marker([-33.414830, -70.662830], { draggable: true }).addTo(mymap);
-        
-      
-        
-        //SANTIAGO
-        // var circle = L.circle([-33.414830, -70.662830], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 1295
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 1295");
+        latlngs = [
+        [-36.595523, -72.117214],[-36.590561, -72.112922],[-36.592215, -72.107086],[-36.587667, -72.102279],[-36.591250, -72.096958],
+        [-36.587115, -72.093010],[-36.585323, -72.086830],[-36.593731, -72.060394],[-36.607512, -72.068634],[-36.618122, -72.073612],
+        [-36.623436, -72.076683],[-36.625566, -72.069130],[-36.632446, -72.068110],[-36.632938, -72.080154],[-36.637033, -72.084849],
+        [-36.635048, -72.095446],[-36.634468, -72.106705],[-36.634584, -72.118109],[-36.640492, -72.119263],[-36.639333, -72.127924],
+        [-36.642229, -72.131100],[-36.640607, -72.140772],[-36.635048, -72.145679],[-36.627518, -72.143514],[-36.621262, -72.143370],
+        [-36.618018, -72.143586],[-36.614658, -72.135936],[-36.612225, -72.136225],[-36.613615, -72.148350],[-36.605504, -72.149505],
+        [-36.601564, -72.121645],[-36.599247, -72.121212],[-36.595075, -72.117170]
+        ]
+        var polygon = L.polygon(latlngs, { color: '#ae9f22' }).addTo(cuarentenas);
 
-
-        // //ARICA
-        // var circle = L.circle([-18.728789, -69.897747], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 6
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 6");
-
-        // //TARAPACÁ
-        // var circle = L.circle([-20.215031, -69.543372], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 8
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 8");
-
-        // //ANTOFAGASTA
-        // var circle = L.circle([-23.648366, -70.394209], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 35
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 35");
-
-
-        // //ATACAMA
-        // var circle = L.circle([-27.603692, -70.315332], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 2
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 2");
-
-
-        // //COQUIMBO
-        // var circle = L.circle([-29.967776, -71.329594], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 27
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 27");
-
-
-        // //VALPARAISO
-        // var circle = L.circle([-33.048674, -71.625816], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 108
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 108");
-
-        // //O’Higgins
-        // var circle = L.circle([-34.461338, -71.298434], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 21
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 21");
-
-        // //MAULE
-        // var circle = L.circle([-35.596401, -71.483462], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 54
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 54");
-
-        // //ÑUBLE
-        // var circle = L.circle([-36.598112, -72.013757], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 229
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 229");
-
-        // //BIOBIO
-        // var circle = L.circle([-36.849994, -73.023011], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 201
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 201");
-
-        // //ARAUCANIA
-        // var circle = L.circle([-38.659524, -72.541132], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 247
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 247");
-
-        // //LOS RIOS
-        // var circle = L.circle([-39.827413, -73.187970], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 47
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 47");
-
-        // //LOS LAGOS
-        // var circle = L.circle([-41.319633, -72.933175], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 128
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 128");
-
-        // //AYSEN
-        // var circle = L.circle([-45.394099, -72.746076], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 2
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 2");
-
-        // //MAGALLANES
-        // var circle = L.circle([-52.857106, -71.091946], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 30 * 2
-        // }).addTo(mymap);
-        // circle.bindPopup("Total: 39");
-
-        // var latlngs = [
+        // latlngs = [
         //     [[45.51, -122.68],
-        //     [37.77, -122.43],
-        //     [34.04, -118.2]],
+        //      [37.77, -122.43],
+        //      [34.04, -118.2]],
         //     [[40.78, -73.91],
-        //     [41.83, -87.62],
-        //     [32.76, -96.72]]
+        //      [41.83, -87.62],
+        //      [32.76, -96.72]]
         // ];
+        // var polyline = L.polyline(latlngs, {color: 'red'}).addTo(contagiados);
 
-        // var polyline = L.polyline(latlngs, { color: 'red' }).addTo(mymap);
-// zoom the map to the polyline
-// mymap.fitBounds(polyline.getBounds())
     </script>
 
 </body>
