@@ -11,3 +11,14 @@ https://leafletjs.com/ an open-source JavaScript library for mobile-friendly int
 ### BackEnd
 
 API desarrollada en Golang
+Regiones: (17) […]
+​​​
+0: {…}
+​​​​
+Casosnuevos: 16
+​​​​
+Casostotales: 28
+​​​​
+Fallecidos: 0
+​​​​
+Name: "Arica y Parinacota"

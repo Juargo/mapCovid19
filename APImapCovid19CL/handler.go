@@ -20,7 +20,7 @@ type dataregion struct {
 
 func (app *application) Routes() {
 	http.HandleFunc("/getDataMinsal", app.getDataMinsal)
-
+	http.HandleFunc("/getCuerentenas", app.getCuerentenas)
 }
 
 func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) {
@@ -29,7 +29,7 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 	//	{name:Atacama,casostotales:10,casosnuevos:0,fallecidos:0}
 	//]
 
-	fmt.Printf("Entro solicitud")
+	fmt.Printf("Entro solicitud getDataMinsal")
 
 	var data map[string]map[string][]dataregion
 	data = make(map[string]map[string][]dataregion)
@@ -96,6 +96,56 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 			})
 
 		})
+	})
+
+	//fmt.Printf("%+v\n\n", data)
+	als := data
+	// fmt.Printf("%+v\n", als)
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(als)
+}
+
+func (app *application) getCuerentenas(w http.ResponseWriter, req *http.Request) {
+	//Data:
+	//Regiones:[
+	//	{name:Atacama,casostotales:10,casosnuevos:0,fallecidos:0}
+	//]
+
+	fmt.Printf("Entro solicitud getCuerentenas")
+
+	var data map[string]map[string][]dataregion
+	data = make(map[string]map[string][]dataregion)
+	data["Data"] = make(map[string][]dataregion)
+
+	// Make HTTP request
+	response, err := http.Get("https://www.gob.cl/coronavirus/cuarentena/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer response.Body.Close()
+
+	// Create a goquery document from the HTTP response
+	document, err := goquery.NewDocumentFromReader(response.Body)
+	if err != nil {
+		log.Fatal("Error loading HTTP response body. ", err)
+	}
+
+	document.Find(".container").Each(func(index int, element *goquery.Selection) {
+		if index == 4 {
+			element.Children().Each(func(indexd int, elementd *goquery.Selection) {
+				elementd.Children().First().Each(func(indext int, elementt *goquery.Selection) {
+					elementt.Children().Each(func(indexc int, elementc *goquery.Selection) {
+						fmt.Printf("\n%s\n", elementc.Text())
+					})
+					// class, _ := elementt.Attr("class")
+					// fmt.Printf("\n%d -> Atrr: %s", indext, class)
+					// if indexd == 1 {
+					// 	fmt.Printf("\n%d -> %+v\n\n", indexd, elementd.Children().Contents().Text())
+					// }
+				})
+			})
+		}
 	})
 
 	//fmt.Printf("%+v\n\n", data)

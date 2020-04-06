@@ -87,7 +87,7 @@
                             radius: 30 * radius
                         }).addTo(contagiados);
                         // circle.bindPopup("<strong>" + element.Name + "</strong> <p>" + "Total Casos: " + element.Casostotales + "</p>");
-                        circle.bindTooltip("<strong>" + element.Name + "</strong> <p>" + "Total Casos: " + element.Casostotales + "</p>")
+                        circle.bindTooltip("<strong>" + element.Name + "</strong> <p>" + "<strong>Total Casos</strong>: " + element.Casostotales + "</p> <p><strong> Casos Nuevos</strong>: "+ element.Casosnuevos+"</p>"+ "</p> <p><strong> Fallecidos</strong>: "+ element.Fallecidos+"</p>")
                     }
                 });
             }).catch(err => console.error(err));
