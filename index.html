@@ -131,7 +131,7 @@
             }).catch(err => console.error(err));
 
         //cuarentenas
-        fetch('../mapajorge/infoMapa.php')
+        fetch('http://167.99.156.156/apicuarentenas/infoMapa.php')
             .then(res => res.json())
             .then((res) => {
                 procesaCuarentenas(res);
