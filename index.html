@@ -289,9 +289,10 @@ console.log(comunas_ob);
         }
 
         function procesaCuarentenas(datos) {
-            cuarentenas = creaMapa("cuarentenas");
+            cuarentenas = creaMapaCuarentena("cuarentenas");
             var etiquetas = "<h2>Ver cuarentenas:<h2>";
             Object.keys(datos).forEach(function (item) {
+                console.log(datos)
                 etiquetas +=
                     "<a href='javascript:void(0)' onClick='irA(event, \"" +
                     datos[item]["coordenadas"][0][0] +
