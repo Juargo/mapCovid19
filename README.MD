@@ -2,6 +2,9 @@
 
 Mapa para presentar los datos entregados en la web de minsal con respecto a los casos de covid19
 
+Inline-style: 
+![mapa](./images/mapa.PNG )
+
 ## Tecnologías
 
 ### FrontEnd
