@@ -1,6 +1,8 @@
-# MapCoVID19CL
+# MapCoVID19CL v.0.7.0
 
-Mapa para presentar los datos entregados en la web de minsal con respecto a los casos de covid19
+Mapa para presentar los datos entregados en la web de minsal con respecto a los casos de covid19 y las cuarentenas
+
+![mapa](./images/mapa.PNG )
 
 ## Tecnologías
 
