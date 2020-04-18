@@ -1,353 +1,446 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>mapCovid19CL</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-        crossorigin=""></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
     <script src="coord_comunas.js"></script>
     <style>
-        #contagiados {
-            height: 100vh;
-            width: 47vw;
-            margin-right: 15px;
-            float: left;
-        }
+      #contagiados {
+        height: 100vh;
+        width: 47vw;
+        margin-right: 15px;
+        float: left;
+      }
 
-        #cuarentenas {
-            height: 100vh;
-            width: 47vw;
-        }
+      #cuarentenas {
+        height: 100vh;
+        width: 47vw;
+      }
 
-        #wrap_comunas {
-            position: relative;
-            display: inline-block;
-        }
+      #wrap_comunas {
+        position: relative;
+        display: inline-block;
+      }
 
-        #etiquetas {
-            position: absolute;
-            top: 67px;
-            z-index: 10000;
-            height: 0px;
-            right: 0px;
-            font-size: 8px;
-            margin: 13px;
-            color: black;
-            font-family: sans-serif;
-        }
+      #etiquetas {
+        position: absolute;
+        top: 67px;
+        z-index: 10000;
+        height: 0px;
+        right: 0px;
+        font-size: 8px;
+        margin: 13px;
+        color: black;
+        font-family: sans-serif;
+      }
 
-        #etiquetas a {
-            color: black;
-            text-decoration: none;
-            font-size: 11px;
-        }
+      #etiquetas a {
+        color: black;
+        text-decoration: none;
+        font-size: 11px;
+      }
 
-        #etiquetas a:hover {
-            color: #c70000;
-        }
+      #etiquetas a:hover {
+        color: #c70000;
+      }
 
-        .wrap_ppal {
-            display: inline-block;
-            vertical-align: top;
-        }
+      .wrap_ppal {
+        display: inline-block;
+        vertical-align: top;
+      }
 
-        #etiquetas h2 {
-            background: hsla(0, 0%, 64%, 0.4);
-            padding: 10px !important;
-            border-radius: 11px;
-            font-size: 13px;
-        }
+      #etiquetas h2 {
+        background: hsla(0, 0%, 64%, 0.4);
+        padding: 10px !important;
+        border-radius: 11px;
+        font-size: 13px;
+      }
 
-        .card-body {
-            padding: 0 !important;
-        }
+      .card-body {
+        padding: 0 !important;
+      }
 
-        .leaflet-interactive:hover {
-            fill: #0008ff;
-            stroke: #0008ff;
-        }        
+      .leaflet-interactive:hover {
+        fill: #0008ff;
+        stroke: #0008ff;
+      }
+
+      #tablilla {
+        position: absolute;
+        top: 37px;
+        z-index: 10000;
+        height: 0px;
+        font-size: 8px;
+        margin: 13px;
+        color: black;
+        font-family: sans-serif;
+      }
+      #tablilla a {
+        color: black;
+        text-decoration: none;
+        font-size: 11px;
+      }
+
+      #tablilla a:hover {
+        color: #c70000;
+      }
+
+      #tablilla h2 {
+        background: hsla(0, 0%, 64%, 0.4);
+        padding: 10px !important;
+        border-radius: 11px;
+        font-size: 13px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="contenedor-mapas">
-        <div class="card bg-light mb-3 wrap_ppal" id="wrap_contagiados"
-            style="max-width: 45rem;margin-left: 4px;margin-top: 2px;">
-            <div class="card-header"
-                style="font-size: 17px;padding: 5px 0px 8px 12px;font-weight: bold;color: #757575;" align="center">Contagiados
-                <div id="cantcontagiados" style="position: absolute;top: 0px;right: 49px;font-size: 23px;"></div>
-            </div>
-            <div class="card-body"></div>
-            <div id="contagiados"></div>
+      <div
+        class="card bg-light mb-3 wrap_ppal"
+        id="wrap_contagiados"
+        style="max-width: 45rem; margin-left: 4px; margin-top: 2px;"
+      >
+        <div
+          class="card-header"
+          style="
+            font-size: 17px;
+            padding: 5px 0px 8px 12px;
+            font-weight: bold;
+            color: #757575;
+          "
+          align="center"
+        >
+          Contagiados
+          <div
+            id="cantcontagiados"
+            style="position: absolute; top: 0px; right: 49px; font-size: 23px;"
+          ></div>
         </div>
+        <div class="card-body"></div>
+        <div id="contagiados"></div>
+        <div id="tablilla"></div>
+      </div>
 
-
-        <div class="card bg-light mb-3 wrap_ppal" id="wrap_comunas"
-            style="max-width: 45rem;margin-left: 4px;margin-top: 2px;">
-            <div class="card-header" style="font-size: 17px;padding: 5px 0px 8px 12px;font-weight: bold;color: #757575;"
-                align="center">Cuarentenas
-                <div id="cantcuarentenas" style="position: absolute;top: 0px;right: 49px;font-size: 23px;"></div>
-            </div>
-            <div class="card-body"></div>
-            <div id="cuarentenas"></div>
-            <div id="etiquetas"></div>
+      <div
+        class="card bg-light mb-3 wrap_ppal"
+        id="wrap_comunas"
+        style="max-width: 45rem; margin-left: 4px; margin-top: 2px;"
+      >
+        <div
+          class="card-header"
+          style="
+            font-size: 17px;
+            padding: 5px 0px 8px 12px;
+            font-weight: bold;
+            color: #757575;
+          "
+          align="center"
+        >
+          Cuarentenas
+          <div
+            id="cantcuarentenas"
+            style="position: absolute; top: 0px; right: 49px; font-size: 23px;"
+          ></div>
         </div>
-
-
+        <div class="card-body"></div>
+        <div id="cuarentenas"></div>
+        <div id="etiquetas"></div>
+      </div>
     </div>
     <script>
-        coordenadas = [];
-        coordenadas["Arica y Parinacota"] = {
-            latitude: -18.728789,
-            longitude: -69.897747,
-        };
-        coordenadas["Tarapacá"] = { latitude: -20.215031, longitude: -69.543372 };
-        coordenadas["Antofagasta"] = {
-            latitude: -23.648366,
-            longitude: -70.394209,
-        };
-        coordenadas["Atacama"] = { latitude: -27.603692, longitude: -70.315332 };
-        coordenadas["Coquimbo"] = { latitude: -29.967776, longitude: -71.329594 };
-        coordenadas["Valparaíso"] = {
-            latitude: -33.048674,
-            longitude: -71.625816,
-        };
-        coordenadas["Metropolitana"] = {
-            latitude: -33.41483,
-            longitude: -70.66283,
-        };
-        coordenadas["O’Higgins"] = {
-            latitude: -34.461338,
-            longitude: -71.298434,
-        };
-        coordenadas["Maule"] = { latitude: -35.596401, longitude: -71.483462 };
-        coordenadas["Ñuble"] = { latitude: -36.598112, longitude: -72.013757 };
-        coordenadas["Biobío"] = { latitude: -36.849994, longitude: -73.023011 };
-        coordenadas["Araucanía"] = {
-            latitude: -38.659524,
-            longitude: -72.541132,
-        };
-        coordenadas["Los Ríos"] = { latitude: -39.827413, longitude: -73.18797 };
-        coordenadas["Los Lagos"] = {
-            latitude: -41.470441,
-            longitude: -72.947332,
-        };
-        coordenadas["Aysén"] = { latitude: -45.394099, longitude: -72.746076 };
-        coordenadas["Magallanes"] = {
-            latitude: -52.857106,
-            longitude: -71.091946,
-        };
+      coordenadas = [];
+      coordenadas["Arica y Parinacota"] = {
+        latitude: -18.728789,
+        longitude: -69.897747,
+      };
+      coordenadas["Tarapacá"] = { latitude: -20.215031, longitude: -69.543372 };
+      coordenadas["Antofagasta"] = {
+        latitude: -23.648366,
+        longitude: -70.394209,
+      };
+      coordenadas["Atacama"] = { latitude: -27.603692, longitude: -70.315332 };
+      coordenadas["Coquimbo"] = { latitude: -29.967776, longitude: -71.329594 };
+      coordenadas["Valparaíso"] = {
+        latitude: -33.048674,
+        longitude: -71.625816,
+      };
+      coordenadas["Metropolitana"] = {
+        latitude: -33.41483,
+        longitude: -70.66283,
+      };
+      coordenadas["O’Higgins"] = {
+        latitude: -34.461338,
+        longitude: -71.298434,
+      };
+      coordenadas["Maule"] = { latitude: -35.596401, longitude: -71.483462 };
+      coordenadas["Ñuble"] = { latitude: -36.598112, longitude: -72.013757 };
+      coordenadas["Biobío"] = { latitude: -36.849994, longitude: -73.023011 };
+      coordenadas["Araucanía"] = {
+        latitude: -38.659524,
+        longitude: -72.541132,
+      };
+      coordenadas["Los Ríos"] = { latitude: -39.827413, longitude: -73.18797 };
+      coordenadas["Los Lagos"] = {
+        latitude: -41.470441,
+        longitude: -72.947332,
+      };
+      coordenadas["Aysén"] = { latitude: -45.394099, longitude: -72.746076 };
+      coordenadas["Magallanes"] = {
+        latitude: -52.857106,
+        longitude: -71.091946,
+      };
 
-        var contagiados = L.map("contagiados", {
-            center: [-33.41483, -70.66283],
-            zoom: 8,
+      var contagiados = L.map("contagiados", {
+        center: [-33.41483, -70.66283],
+        zoom: 8,
+      });
+
+      L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        maxZoom: 18,
+      }).addTo(contagiados);
+      L.control.scale().addTo(contagiados);
+
+      var radius = 0;
+      fetch("http://167.99.156.156:8080/getDataMinsal")
+        .then((res) => res.json())
+        .then((out) => {
+          console.log("Output: ", out);
+          //   console.log(coordenadas);
+
+          var etiquetas = "<h2>Total por región:<h2>";
+          out.Data.Regiones.forEach((element) => {
+            // console.log(element)
+            // console.log(coordenadas[element.Name]);
+            if (element.Name != "Total") {
+              // if (element.Casostotales > 1200) {
+              //     radius = 1295;
+              // } else {
+              //     radius = element.Casostotales;
+              // }
+              // var circle = L.circle(
+              //     [
+              //         coordenadas[element.Name].latitude,
+              //         coordenadas[element.Name].longitude,
+              //     ],
+              //     {
+              //         color: "red",
+              //         fillColor: "#f03",
+              //         fillOpacity: 0.5,
+              //         radius: 30 * radius,
+              //     }
+              // ).addTo(contagiados);
+              // // circle.bindPopup("<strong>" + element.Name + "</strong> <p>" + "Total Casos: " + element.Casostotales + "</p>");
+              // circle.bindTooltip(
+              //     "<strong>" +
+              //     element.Name +
+              //     "</strong> <p>" +
+              //     "<strong>Total Casos</strong>: " +
+              //     element.Casostotales +
+              //     "</p> <p><strong> Casos Nuevos</strong>: " +
+              //     element.Casosnuevos +
+              //     "</p>" +
+              //     "</p> <p><strong> Fallecidos</strong>: " +
+              //     element.Fallecidos +
+              //     "</p>"
+              // );
+              etiquetas += `<a href='javascript:void(0)' onClick='irAContagiados(event,${
+                coordenadas[element.Name].latitude
+              },${coordenadas[element.Name].longitude})'>
+                        ${element.Name}: ${ Intl.NumberFormat("de-DE").format(
+                element.Casostotales
+              )} </a><br>`;
+            } else if (element.Name == "Total") {
+              var elementd = document.querySelector("#cantcontagiados");
+              elementd.innerHTML = Intl.NumberFormat("de-DE").format(
+                element.Casostotales
+              );
+            }
+          });
+          console.log(etiquetas);
+          var div = document.querySelector("#tablilla");
+          div.innerHTML = etiquetas;
+        })
+        .catch((err) => console.error(err));
+
+      //cuarentenas
+      fetch("http://167.99.156.156/apicuarentenas/infoMapa.php")
+        .then((res) => res.json())
+        .then((res) => {
+          procesaCuarentenas(res);
+          console.log(res.length);
+          var elementd = document.querySelector("#cantcuarentenas");
+          elementd.innerHTML = Intl.NumberFormat("de-DE").format(res.length);
+        })
+        .catch((err) => console.error(err));
+
+      //por comuna
+      fetch(
+        "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19.csv"
+      )
+        .then((res) => res.text())
+        .then((res) => {
+          procesaPorComuna(res);
+        })
+        .catch((err) => console.error(err));
+
+      var cuarentenas;
+      var porcomuna;
+
+      function procesaPorComuna(datos) {
+        // porcomuna = creaMapa("porcomuna");
+        var comunas = csvJSON(datos);
+        var comunas_ob = new Array();
+        Object.keys(comunas).forEach(function (item) {
+          let comuna = comunas[item];
+          let casos = 0;
+          Object.keys(comuna).forEach(function (item) {
+            if (
+              item.match(/^2020/) !== null &&
+              casos < comuna[item] &&
+              !isNaN(comuna[item])
+            ) {
+              casos = comuna[item];
+            }
+          });
+          comunas_ob.push({
+            nombre: comuna["Comuna"],
+            casos: casos,
+            codigo: comuna["Codigo comuna"],
+          });
+        });
+        var comunas_ob_ord = ordenaPorCasos(comunas_ob);
+        comunas_ob_ord.forEach(function (item) {
+          agregaComuna(item.nombre, item.casos, item.codigo);
+        });
+        console.log(comunas_ob);
+      }
+      function ordenaPorCasos(array) {
+        array.sort(function (a, b) {
+          return b.casos - a.casos;
+        });
+        return array;
+      }
+      function agregaComuna(nombre, casos, codigo) {
+        if (
+          isNaN(codigo) ||
+          typeof coord_comunas[codigo] == "undefined" ||
+          casos == 0
+        ) {
+          return;
+        }
+        var lat = coord_comunas[codigo][0];
+        var lng = coord_comunas[codigo][1];
+
+        if (casos > 1200) {
+          radius = 1295;
+        } else {
+          radius = casos;
+        }
+        var circle = L.circle([lat, lng], {
+          color: "red",
+          fillColor: "#f03",
+          fillOpacity: 0.5,
+          radius: 30 * radius,
+        }).addTo(contagiados);
+        circle.bindTooltip(
+          "<strong>" +
+            nombre +
+            "</strong> <p>" +
+            "<strong>Total Casos</strong>: " +
+            casos +
+            "</p>"
+        );
+      }
+
+      function procesaCuarentenas(datos) {
+        cuarentenas = creaMapaCuarentena("cuarentenas");
+        var etiquetas = "<h2>Ver cuarentenas:<h2>";
+        Object.keys(datos).forEach(function (item) {
+          console.log(datos);
+          etiquetas +=
+            "<a href='javascript:void(0)' onClick='irA(event, \"" +
+            datos[item]["coordenadas"][0][0] +
+            '", "' +
+            datos[item]["coordenadas"][0][1] +
+            "\")'>" +
+            datos[item]["nombre"] +
+            "</a><br>";
+
+          L.polygon(datos[item]["coordenadas"], { color: "#ae9f22" })
+            .bindTooltip("<strong>" + datos[item]["nombre"] + "</strong>")
+            .addTo(cuarentenas);
         });
 
+        var element = document.querySelector("#etiquetas");
+        element.innerHTML = etiquetas;
+      }
+
+      function creaMapaCuarentena(nombre) {
+        var mapa = L.map(nombre, {
+          center: [-33.41483, -70.66283],
+          zoom: 8,
+        });
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution:
-                'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-            maxZoom: 18,
-        }).addTo(contagiados);
-        L.control.scale().addTo(contagiados);
+          attribution:
+            'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+          maxZoom: 18,
+        }).addTo(mapa);
+        L.control.scale().addTo(mapa);
+        return mapa;
+      }
+      function irA(e, lat, lng) {
+        e.preventDefault();
+        cuarentenas.setZoom(11, { animate: false });
+        cuarentenas.panTo(new L.LatLng(lat, lng));
+      }
 
+      function irAContagiados(e, lat, lng) {
+        e.preventDefault();
+        contagiados.setZoom(9, { animate: false });
+        contagiados.panTo(new L.LatLng(lat, lng));
+      }
+      /* útiles */
+      //var csv is the CSV file with headers
+      function csvJSON(csv) {
+        var lines = csv.split("\n");
+        var result = [];
+        var headers = lines[0].split(",");
 
-        var radius = 0;
-        fetch("http://167.99.156.156:8080/getDataMinsal")
-            .then((res) => res.json())
-            .then((out) => {
-                console.log("Output: ", out);
-                //   console.log(coordenadas);
-                out.Data.Regiones.forEach((element) => {
-                    // console.log(element)
-                    // console.log(coordenadas[element.Name]);
-                    if (element.Name != "Total") {
-                        // if (element.Casostotales > 1200) {
-                        //     radius = 1295;
-                        // } else {
-                        //     radius = element.Casostotales;
-                        // }
-                        // var circle = L.circle(
-                        //     [
-                        //         coordenadas[element.Name].latitude,
-                        //         coordenadas[element.Name].longitude,
-                        //     ],
-                        //     {
-                        //         color: "red",
-                        //         fillColor: "#f03",
-                        //         fillOpacity: 0.5,
-                        //         radius: 30 * radius,
-                        //     }
-                        // ).addTo(contagiados);
-                        // // circle.bindPopup("<strong>" + element.Name + "</strong> <p>" + "Total Casos: " + element.Casostotales + "</p>");
-                        // circle.bindTooltip(
-                        //     "<strong>" +
-                        //     element.Name +
-                        //     "</strong> <p>" +
-                        //     "<strong>Total Casos</strong>: " +
-                        //     element.Casostotales +
-                        //     "</p> <p><strong> Casos Nuevos</strong>: " +
-                        //     element.Casosnuevos +
-                        //     "</p>" +
-                        //     "</p> <p><strong> Fallecidos</strong>: " +
-                        //     element.Fallecidos +
-                        //     "</p>"
-                        // );
-                    } else if (element.Name == "Total") {
-                        var elementd = document.querySelector("#cantcontagiados");
-                        elementd.innerHTML = Intl.NumberFormat("de-DE").format(element.Casostotales);
-                    }
-                });
-            })
-            .catch((err) => console.error(err));
-
-        //cuarentenas
-        fetch("http://167.99.156.156/apicuarentenas/infoMapa.php")
-            .then((res) => res.json())
-            .then((res) => {
-                procesaCuarentenas(res);
-                console.log(res.length)
-                var elementd = document.querySelector("#cantcuarentenas");
-                        elementd.innerHTML = Intl.NumberFormat("de-DE").format(res.length);
-            })
-            .catch((err) => console.error(err));
-
-        //por comuna
-        fetch('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19.csv')
-            .then(res => res.text())
-            .then((res) => {
-                procesaPorComuna(res);
-            }).catch(err => console.error(err));
-
-        var cuarentenas;
-        var porcomuna;
-
-
-
-        function procesaPorComuna(datos) {
-            // porcomuna = creaMapa("porcomuna");
-            var comunas = csvJSON(datos);
-            var comunas_ob = new Array();
-            Object.keys(comunas).forEach(function (item) {
-                let comuna = comunas[item];
-                let casos = 0;
-                Object.keys(comuna).forEach(function (item) {
-                    if (item.match(/^2020/) !== null && casos < comuna[item] && !isNaN(comuna[item])) {
-                        casos = comuna[item];                        
-                    }                    
-                });
-                comunas_ob.push({
-                    nombre : comuna["Comuna"],
-                    casos : casos,
-                    codigo : comuna["Codigo comuna"],
-                });                
-            });
-            var comunas_ob_ord = ordenaPorCasos(comunas_ob);
-            comunas_ob_ord.forEach(function (item) {
-                agregaComuna(
-                    item.nombre,
-                    item.casos,
-                    item.codigo
-                );                
-            });
-console.log(comunas_ob);            
+        for (var i = 1; i < lines.length; i++) {
+          var obj = {};
+          var currentline = lines[i].split(",");
+          for (var j = 0; j < headers.length; j++) {
+            obj[headers[j]] = currentline[j];
+          }
+          result.push(obj);
         }
-        function ordenaPorCasos(array) {
-            array.sort(function(a, b) {
-                return b.casos - a.casos;
-            });   
-            return array;         
-        }
-        function agregaComuna(nombre, casos, codigo) {
-            if (isNaN(codigo) || typeof coord_comunas[codigo] == "undefined" || casos == 0) {
-                return;
-            }
-            var lat = coord_comunas[codigo][0];
-            var lng = coord_comunas[codigo][1];
-
-            if (casos > 1200) {
-                radius = 1295
-            } else {
-                radius = casos
-            }
-            var circle = L.circle([lat, lng], {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.5,
-                radius: 30 * radius
-            }).addTo(contagiados);
-            circle.bindTooltip("<strong>" + nombre + "</strong> <p>" + "<strong>Total Casos</strong>: " + casos + "</p>")            
-        }
-
-        function procesaCuarentenas(datos) {
-            cuarentenas = creaMapaCuarentena("cuarentenas");
-            var etiquetas = "<h2>Ver cuarentenas:<h2>";
-            Object.keys(datos).forEach(function (item) {
-                console.log(datos)
-                etiquetas +=
-                    "<a href='javascript:void(0)' onClick='irA(event, \"" +
-                    datos[item]["coordenadas"][0][0] +
-                    '", "' +
-                    datos[item]["coordenadas"][0][1] +
-                    "\")'>" +
-                    datos[item]["nombre"] +
-                    "</a><br>";
-
-                L.polygon(datos[item]["coordenadas"], { color: "#ae9f22" })
-                    .bindTooltip("<strong>" + datos[item]["nombre"] + "</strong>")
-                    .addTo(cuarentenas);
-            });
-            
-            var element = document.querySelector("#etiquetas");
-            element.innerHTML = etiquetas;
-        }
-           
-        function creaMapaCuarentena(nombre) {
-            var mapa = L.map(nombre, {
-                center: [-33.41483, -70.66283],
-                zoom: 8,
-            });
-            L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution:
-                    'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-                maxZoom: 18,
-            }).addTo(mapa);
-            L.control.scale().addTo(mapa);
-            return mapa;
-        }
-        function irA(e, lat, lng) {
-            e.preventDefault();
-            cuarentenas.setZoom(11, { animate: false });
-            cuarentenas.panTo(new L.LatLng(lat, lng));
-        }
-
-        /* útiles */
-        //var csv is the CSV file with headers
-        function csvJSON(csv){
-            var lines=csv.split("\n");
-            var result = [];
-            var headers=lines[0].split(",");
-
-            for(var i=1;i<lines.length;i++){
-                var obj = {};
-                var currentline=lines[i].split(",");
-                for(var j=0;j<headers.length;j++){
-                    obj[headers[j]] = currentline[j];
-                }
-                result.push(obj);
-
-            }
-            return result; 
-        }        
+        return result;
+      }
     </script>
-</body>
-
+  </body>
 </html>
