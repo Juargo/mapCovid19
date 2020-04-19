@@ -1,5 +1,5 @@
 # MapCoVID19CL 
-<p align="center">
+<p >
     <a href="https://github.com/Juargo/mapCovid19CL/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/badge/contributors-2-green" /></a>
 <img src="https://img.shields.io/badge/version-0.7.2-blue" />  
