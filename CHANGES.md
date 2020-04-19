@@ -1,6 +1,10 @@
 # Changelog
 
-## [0.7.0] - 2020-04-18
+## [0.7.1] - 2020-04-18
+
+**hotfix**
+
++ Por falta de CORS se corrige url para consultar info.php de absoluta a relativa
 
 **feature**
 
