@@ -1,5 +1,9 @@
-# MapCoVID19CL v.0.7.2
-
+# MapCoVID19CL 
+<p >
+    <a href="https://github.com/Juargo/mapCovid19CL/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/badge/contributors-2-green" /></a>
+<img src="https://img.shields.io/badge/version-0.7.2-blue" />  
+</p>
 Mapa para presentar los datos entregados en la web de minsal con respecto a los casos de covid19 y las cuarentenas
 
 ![mapa](./images/mapa.PNG )
