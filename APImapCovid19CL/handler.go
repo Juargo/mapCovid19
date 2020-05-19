@@ -63,7 +63,7 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 							region = elementf.Text()
 						}
 
-						if indexf == 1 {
+						if indexf == 2 {
 							// fmt.Printf("Casos Nuevos:%s\n", elementf.Text())
 							dato := strings.Replace(elementf.Text(), ".", "", -1)
 							i2, err := strconv.ParseInt(dato, 10, 64)
@@ -72,7 +72,7 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 							}
 						}
 
-						if indexf == 2 {
+						if indexf == 1 {
 							// fmt.Printf("Casos Totales:%s\n", elementf.Text())
 							dato := strings.Replace(elementf.Text(), ".", "", -1)
 							i2, err := strconv.ParseInt(dato, 10, 64)
@@ -81,7 +81,7 @@ func (app *application) getDataMinsal(w http.ResponseWriter, req *http.Request) 
 							}
 						}
 
-						if indexf == 4 {
+						if indexf == 6 {
 							// fmt.Printf("Fallecidos: %s\n", elementf.Text())
 							dato := strings.Replace(elementf.Text(), ".", "", -1)
 							i2, err := strconv.ParseInt(dato, 10, 64)
